@@ -5,6 +5,7 @@ resources:
   - longhorn.yaml
   - gateway-api
   - kgateway-crds.yaml
+  - kgateway.yaml
   - cert-manager.yaml
   - coroot-operator.yaml
   - envoy-gateway.yaml
