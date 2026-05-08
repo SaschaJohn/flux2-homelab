@@ -100,3 +100,11 @@ spec:
         - name: longhorn-frontend
           namespace: longhorn-system
           port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /v1
+      backendRefs:
+        - name: longhorn-frontend
+          namespace: longhorn-system
+          port: 80
