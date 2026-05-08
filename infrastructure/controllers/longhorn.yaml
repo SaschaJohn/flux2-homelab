@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: longhorn-system
+  labels:
+    toolkit.fluxcd.io/tenant: sre-team
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  interval: 24h
+  url: https://charts.longhorn.io
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  interval: 12h
+  chart:
+    spec:
+      chart: longhorn
+      version: "1.11.1"
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+  install:
+    strategy:
+      name: RetryOnFailure
+    crds: CreateReplace
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+    crds: CreateReplace
+  values:
+    defaultSettings:
+      defaultDataLocality: best-effort
+      defaultReplicaCount: 2
+    longhornDriver:
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
+    longhornManager:
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
+    persistence:
+      defaultClassReplicaCount: 2
