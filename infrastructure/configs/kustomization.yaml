@@ -5,3 +5,4 @@ resources:
   - cluster-issuers.yaml
   - coroot.yaml
   - gateway.yaml
+  - kgateway-gateway.yaml
