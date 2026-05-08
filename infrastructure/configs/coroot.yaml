@@ -1,0 +1,16 @@
+---
+apiVersion: coroot.com/v1
+kind: Coroot
+metadata:
+  name: coroot
+  namespace: coroot
+spec:
+  clickhouse:
+    replicas: 1
+    shards: 1
+    keeper:
+      replicas: 1
+    storage:
+      className: longhorn
+      reclaimPolicy: Delete
+      size: 10Gi
