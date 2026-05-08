@@ -88,8 +88,19 @@ spec:
   rules:
     - matches:
         - path:
-            type: PathPrefix
+            type: Exact
             value: /longhorn
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: /longhorn/
+            statusCode: 301
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /longhorn/
       filters:
         - type: URLRewrite
           urlRewrite:
