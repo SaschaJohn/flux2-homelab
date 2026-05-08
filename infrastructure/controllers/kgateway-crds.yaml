@@ -1,0 +1,33 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kgateway-crds
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: oci://cr.kgateway.dev/kgateway-dev/charts/kgateway-crds
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  ref:
+    tag: "v2.2.4"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kgateway-crds
+  namespace: flux-system
+spec:
+  interval: 12h
+  install:
+    strategy:
+      name: RetryOnFailure
+    crds: CreateReplace
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+    crds: CreateReplace
+  chartRef:
+    kind: OCIRepository
+    name: kgateway-crds

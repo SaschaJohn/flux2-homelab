@@ -4,6 +4,7 @@ resources:
   - cilium.yaml
   - longhorn.yaml
   - gateway-api
+  - kgateway-crds.yaml
   - cert-manager.yaml
   - coroot-operator.yaml
   - envoy-gateway.yaml
