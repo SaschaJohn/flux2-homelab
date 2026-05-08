@@ -41,7 +41,7 @@ spec:
     strategy:
       name: RetryOnFailure
     crds: CreateReplace
-    enableHooks: false
+    disableHooks: true
   values:
     defaultSettings:
       defaultDataLocality: best-effort
