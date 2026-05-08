@@ -1,0 +1,18 @@
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: default-pool
+spec:
+  blocks:
+    - start: "192.168.178.201"
+      stop: "192.168.178.230"
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default-l2-policy
+spec:
+  interfaces:
+    - ^ens[0-9]+
+  externalIPs: true
+  loadBalancerIPs: true
