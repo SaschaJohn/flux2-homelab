@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - cilium.yaml
   - longhorn.yaml
+  - gateway-api
   - cert-manager.yaml
   - coroot-operator.yaml
   - envoy-gateway.yaml
