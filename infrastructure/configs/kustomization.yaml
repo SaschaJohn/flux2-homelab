@@ -4,5 +4,4 @@ resources:
   - cilium-l2.yaml
   - cluster-issuers.yaml
   - coroot.yaml
-  - gateway.yaml
   - kgateway-gateway.yaml
