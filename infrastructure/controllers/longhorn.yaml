@@ -5,6 +5,8 @@ metadata:
   name: longhorn-system
   labels:
     toolkit.fluxcd.io/tenant: sre-team
+  annotations:
+    pod-security.kubernetes.io/enforce: privileged
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
