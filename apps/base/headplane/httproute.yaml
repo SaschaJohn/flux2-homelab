@@ -24,7 +24,7 @@ spec:
           requestRedirect:
             path:
               type: ReplaceFullPath
-              value: /admin
+              replaceFullPath: /admin
             statusCode: 302
     - matches:
         - path:
