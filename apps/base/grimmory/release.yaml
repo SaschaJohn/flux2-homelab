@@ -21,6 +21,8 @@ spec:
   # Default values
   # https://github.com/grimmory-tools/grimmory/blob/develop/deploy/helm/grimmory/values.yaml
   values:
+    image:
+      tag: "v3.2.4"
     # Homelab Longhorn capacity is limited: use a single-replica storage
     # class for grimmory's data instead of the cluster-default 2 replicas.
     # PVCs are pre-created in pvc.yaml and referenced here as existingClaim.
