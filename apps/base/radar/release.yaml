@@ -26,3 +26,12 @@ spec:
     # app release v1.8.5). Override until Chart.yaml's appVersion catches up.
     image:
       tag: "1.8.5"
+    rbac:
+      # Grants Radar's ServiceAccount create/update/patch/delete on all
+      # resource types (also auto-enables secrets read, needed for Helm
+      # release storage). Without this Radar is read-only and its
+      # apply/patch/manage-* actions (Kustomization reconcile, HTTPRoute
+      # edits, workload restart/scale, node cordon/drain, etc.) are
+      # rejected by the API server. Deliberate tradeoff: any client of
+      # Radar's MCP/API (including AI agents) inherits this write access.
+      helm: true
