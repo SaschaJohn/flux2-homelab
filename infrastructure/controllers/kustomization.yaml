@@ -8,3 +8,4 @@ resources:
   - kgateway.yaml
   - cert-manager.yaml
   - coroot-operator.yaml
+  - cert-manager-lego-webhook.yaml
