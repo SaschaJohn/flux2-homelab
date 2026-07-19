@@ -20,4 +20,9 @@ spec:
       name: RetryOnFailure
   # Default values
   # https://github.com/skyhook-io/radar/blob/main/deploy/helm/radar/values.yaml
-  values: {}
+  values:
+    # Chart's pinned appVersion (1.7.6) predates the chart's main-branch
+    # deployment template, which already passes -listen-address (added in
+    # app release v1.8.5). Override until Chart.yaml's appVersion catches up.
+    image:
+      tag: "1.8.5"
