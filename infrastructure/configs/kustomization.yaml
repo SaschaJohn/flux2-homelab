@@ -5,3 +5,4 @@ resources:
   - cluster-issuers.yaml
   - coroot.yaml
   - kgateway-gateway.yaml
+  - longhorn-storageclasses.yaml

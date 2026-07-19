@@ -20,4 +20,15 @@ spec:
       name: RetryOnFailure
   # Default values
   # https://github.com/grimmory-tools/grimmory/blob/develop/deploy/helm/grimmory/values.yaml
-  values: {}
+  values:
+    # Homelab Longhorn capacity is limited: use a single-replica storage
+    # class for grimmory's data instead of the cluster-default 2 replicas.
+    # PVCs are pre-created in pvc.yaml and referenced here as existingClaim.
+    mariadb:
+      persistence:
+        storageClass: longhorn-single-replica
+    persistence:
+      dataVolume:
+        existingClaim: grimmory-data
+      booksVolume:
+        existingClaim: grimmory-books

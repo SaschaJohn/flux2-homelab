@@ -4,4 +4,5 @@ namespace: grimmory
 resources:
   - namespace.yaml
   - repository.yaml
+  - pvc.yaml
   - release.yaml
