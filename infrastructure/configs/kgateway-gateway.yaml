@@ -38,6 +38,7 @@ spec:
     - name: https
       protocol: HTTPS
       port: 443
+      hostname: "*.lab.mnm-solutions.de"
       tls:
         mode: Terminate
         certificateRefs:
