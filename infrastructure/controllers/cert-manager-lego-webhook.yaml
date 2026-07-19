@@ -19,7 +19,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: cert-manager-lego-webhook
-  nyyamespace: tooling
+  namespace: tooling
 spec:
   interval: 12h
   chart:
