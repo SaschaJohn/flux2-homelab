@@ -18,6 +18,12 @@ spec:
   # Default values
   # https://github.com/gabe565/charts/blob/main/charts/headscale/values.yaml
   values:
+    # Chart's pinned appVersion (v0.25.0) lags upstream; override to the
+    # latest stable headscale release. Checked upstream changelog up to
+    # v0.29.2 for breaking config changes -- none affect the env vars set
+    # below (default CGNAT prefixes, no custom ACLs/randomize_client_port).
+    image:
+      tag: "v0.29.2"
     env:
       # Public URL clients connect to.
       HEADSCALE_SERVER_URL: "https://headscale.lab.mnm-solutions.de"
