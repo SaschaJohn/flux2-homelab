@@ -1,0 +1,15 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: radar
+  namespace: radar
+spec:
+  interval: 5m
+  url: https://github.com/skyhook-io/radar
+  ref:
+    branch: main
+  ignore: |
+    # exclude everything
+    /*
+    # include the helm chart
+    !/deploy/helm/radar
