@@ -11,6 +11,21 @@ spec:
   hostnames:
     - headplane.lab.mnm-solutions.de
   rules:
+    # Headplane's own router only serves paths under /admin; redirect the
+    # bare root path there so the hostname works without a manual /admin
+    # suffix. Exact-path matches take precedence over PathPrefix matches
+    # per the Gateway API spec, so this fires before the catch-all below.
+    - matches:
+        - path:
+            type: Exact
+            value: /
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              value: /admin
+            statusCode: 302
     - matches:
         - path:
             type: PathPrefix
