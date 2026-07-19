@@ -15,6 +15,7 @@
     "before 6am on monday"
   ],
   "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency Dashboard",
   "labels": [
     "renovate"
   ],
