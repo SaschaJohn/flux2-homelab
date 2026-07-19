@@ -21,6 +21,20 @@ spec:
     - "*.sslip.io"
     - "kgateway.local"
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lab-mnm-solutions.de
+spec:
+  issuerRef:
+    name: dode
+    kind: ClusterIssuer
+  secretName: lab.mnm-solutions-tls
+  commonName: lab.mnm-solutions.de
+  dnsNames:
+    - lab.mnm-solutions.de
+    - '*.lab.mnm-solutions.de'
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -42,7 +56,8 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: kgateway-tls
+          - name: lab.mnm-solutions-tls
+            kind: Secret
       allowedRoutes:
         namespaces:
           from: All
