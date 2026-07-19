@@ -47,6 +47,11 @@ spec:
     defaultSettings:
       defaultDataLocality: best-effort
       defaultReplicaCount: 2
+      # Propagate the control-plane toleration to ALL Longhorn system-managed
+      # components (engine-image, csi plugin, etc.), not just longhornDriver
+      # and longhornManager below. Without this, engine-image never runs on
+      # the control-plane node, so its disk space can't be used for replicas.
+      taintToleration: node-role.kubernetes.io/control-plane:NoSchedule
     longhornDriver:
       tolerations:
         - effect: NoSchedule
