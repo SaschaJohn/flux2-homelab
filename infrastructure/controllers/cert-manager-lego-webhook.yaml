@@ -37,3 +37,8 @@ spec:
     strategy:
       name: RetryOnFailure
     crds: CreateReplace
+  values:
+    certManager:
+      namespace: cert-manager
+      serviceAccount:
+        name: cert-manager
