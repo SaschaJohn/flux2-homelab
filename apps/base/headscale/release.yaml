@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: headscale
+  namespace: headscale
+spec:
+  interval: 50m
+  releaseName: headscale
+  chartRef:
+    kind: OCIRepository
+    name: headscale
+  install:
+    strategy:
+      name: RetryOnFailure
+  upgrade:
+    strategy:
+      name: RetryOnFailure
+  # Default values
+  # https://github.com/gabe565/charts/blob/main/charts/headscale/values.yaml
+  values:
+    env:
+      # Public URL clients connect to.
+      HEADSCALE_SERVER_URL: "https://headscale.lab.mnm-solutions.de"
+      # Base domain for MagicDNS device names (e.g. myhost.ts.lab.mnm-solutions.de).
+      # Must differ from the server_url domain above.
+      HEADSCALE_DNS_BASE_DOMAIN: "ts.lab.mnm-solutions.de"
+    # Persist the SQLite database and Noise private key so they survive
+    # pod restarts/rescheduling. Homelab runs a single replica, so a
+    # single-replica storage class is sufficient here.
+    persistence:
+      config:
+        enabled: true
+        mountPath: /var/lib/headscale
+        storageClass: longhorn-single-replica
+        size: 1Gi
