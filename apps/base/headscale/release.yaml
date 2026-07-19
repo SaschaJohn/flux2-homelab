@@ -27,9 +27,13 @@ spec:
     # Persist the SQLite database and Noise private key so they survive
     # pod restarts/rescheduling. Homelab runs a single replica, so a
     # single-replica storage class is sufficient here.
+    #
+    # mountPath is left at the chart default (/etc/headscale): the headscale
+    # binary has a hardcoded config.yaml search path of /etc/headscale,
+    # ~/.headscale, and cwd, so the config/DB/noise-key volume must live
+    # there for the generated config.yaml to actually be found.
     persistence:
       config:
         enabled: true
-        mountPath: /var/lib/headscale
         storageClass: longhorn-single-replica
         size: 1Gi
