@@ -138,6 +138,27 @@ spec:
           port: 80
 ---
 apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: longhorn-host
+  namespace: kgateway-system
+spec:
+  parentRefs:
+    - name: main-gateway
+      sectionName: https
+  hostnames:
+    - longhorn.lab.mnm-solutions.de
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: longhorn-frontend
+          namespace: longhorn-system
+          port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
 kind: ReferenceGrant
 metadata:
   name: allow-kgateway
@@ -226,3 +247,38 @@ spec:
         - name: flux-operator
           namespace: flux-system
           port: 9080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: ReferenceGrant
+metadata:
+  name: allow-kgateway
+  namespace: radar
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: kgateway-system
+  to:
+    - group: ""
+      kind: Service
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: radar
+  namespace: kgateway-system
+spec:
+  parentRefs:
+    - name: main-gateway
+      sectionName: https
+  hostnames:
+    - radar.lab.mnm-solutions.de
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: radar
+          namespace: radar
+          port: 9280
