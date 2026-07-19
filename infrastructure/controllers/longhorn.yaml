@@ -64,3 +64,18 @@ spec:
           operator: Exists
     persistence:
       defaultClassReplicaCount: 2
+  # The longhorn-frontend Service has no appProtocol set by the chart (no
+  # values.yaml option exposes it), which breaks WebSocket upgrades
+  # (/v1/ws/... events stream) when proxied through kgateway/Envoy - Envoy
+  # returns 403 on Connection:Upgrade requests unless the backend Service
+  # port declares appProtocol: kubernetes.io/ws.
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |
+              - op: add
+                path: /spec/ports/0/appProtocol
+                value: kubernetes.io/ws
+            target:
+              kind: Service
+              name: longhorn-frontend
