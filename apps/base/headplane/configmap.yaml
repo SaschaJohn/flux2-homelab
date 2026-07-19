@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: headplane-config
+data:
+  config.yaml: |
+    server:
+      host: "0.0.0.0"
+      port: 3000
+      base_url: "https://headplane.lab.mnm-solutions.de"
+      cookie_secure: true
+      data_path: "/var/lib/headplane"
+      # cookie_secret is supplied at runtime via the headplane-secrets
+      # Secret (HEADPLANE_SERVER__COOKIE_SECRET) + HEADPLANE_LOAD_ENV_OVERRIDES.
+
+    headscale:
+      # In-cluster ClusterIP address of the headscale HTTP API.
+      url: "http://headscale.headscale.svc.cluster.local:8080"
+      public_url: "https://headscale.lab.mnm-solutions.de"
+      # api_key is supplied at runtime via the headplane-secrets Secret
+      # (HEADPLANE_HEADSCALE__API_KEY) + HEADPLANE_LOAD_ENV_OVERRIDES.
+      #
+      # config_path is intentionally left unset: headscale runs in its own
+      # Deployment/Pod here (not as a co-located sidecar), so Headplane has
+      # no access to its config file or process. This means "Network
+      # Management" (editing DNS/global Headscale settings from the UI) and
+      # remote Web SSH are unavailable -- user, node, pre-auth key, and
+      # route/tag management still work via the Headscale HTTP API.
+
+    integration:
+      agent:
+        enabled: false
+      docker:
+        enabled: false
+      kubernetes:
+        enabled: false
+      proc:
+        enabled: false

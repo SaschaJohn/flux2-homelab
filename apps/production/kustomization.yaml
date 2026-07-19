@@ -4,3 +4,4 @@ resources:
   - ../base/grimmory
   - ../base/radar
   - ../base/headscale
+  - ../base/headplane

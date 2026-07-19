@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: headplane
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: headplane
+  template:
+    metadata:
+      labels:
+        app: headplane
+    spec:
+      containers:
+        - name: headplane
+          image: ghcr.io/tale/headplane:0.7.0
+          env:
+            - name: HEADPLANE_LOAD_ENV_OVERRIDES
+              value: "true"
+          # headplane-secrets is created manually (out-of-band, not committed
+          # to git) and must provide:
+          #   HEADPLANE_SERVER__COOKIE_SECRET  (32+ random chars)
+          #   HEADPLANE_HEADSCALE__API_KEY     (`headscale apikeys create`)
+          envFrom:
+            - secretRef:
+                name: headplane-secrets
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 1
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 1
+          volumeMounts:
+            - name: config
+              mountPath: /etc/headplane
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/headplane
+      volumes:
+        - name: config
+          configMap:
+            name: headplane-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: headplane-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: headplane
+spec:
+  selector:
+    app: headplane
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http
